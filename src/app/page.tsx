@@ -1,5 +1,6 @@
 "use client";
 
+import React, { createContext, useContext } from 'react';
 import { useEffect, useState, useRef } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
