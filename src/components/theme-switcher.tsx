@@ -14,12 +14,17 @@ import { useEffect, useState } from "react";
 
 const ThemeSwitcher = () => {
   // Set default theme to dark on initial load
-  useEffect(() => {
-    if (!mounted) return;
-    if (!theme) setTheme("dark");
-  }, [mounted, theme, setTheme]);
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+const [mounted, setMounted] = useState(false);
+const { theme, setTheme } = useTheme();
+
+useEffect(() => {
+  if (!mounted) return;
+  if (!theme) setTheme("dark");
+}, [mounted, theme, setTheme]);
+
+useEffect(() => {
+  setMounted(true);
+}, []);
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
