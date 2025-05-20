@@ -1,6 +1,5 @@
 "use client";
 
-import { createContext, useContext } from 'react';
 import { useEffect, useState, useRef } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
@@ -18,8 +17,8 @@ import {
   Briefcase,
   LineChart,
   ChevronDown,
-  MoonIcon,
-  SunIcon,
+  Moon as MoonIcon,
+  Sun as SunIcon,
   ArrowDown,
 } from "lucide-react";
 
@@ -40,11 +39,13 @@ import SocialLinks from "@/components/SocialLinks";
 
 export default function Home() {
   // Set default theme to dark
+  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMounted(true);
     setTheme("dark");
   }, [setTheme]);
 
@@ -175,19 +176,27 @@ export default function Home() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full bg-background/30 backdrop-blur-sm border border-primary hover:shadow-glow"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        >
-          {theme === "dark" ? (
-            <SunIcon className="h-5 w-5 text-primary" />
-          ) : (
-            <MoonIcon className="h-5 w-5 text-primary" />
-          )}
-          <span className="sr-only">Toggle theme</span>
-        </Button>
+        {mounted ? (
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full bg-background/30 backdrop-blur-sm border border-primary hover:shadow-glow"
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          >
+            {theme === "dark" ? (
+              <SunIcon className="h-5 w-5 text-primary" />
+            ) : (
+              <MoonIcon className="h-5 w-5 text-primary" />
+            )}
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full bg-background/30 backdrop-blur-sm border border-primary"
+          />
+        )}
       </motion.div>
 
       {/* Slide Navigation */}

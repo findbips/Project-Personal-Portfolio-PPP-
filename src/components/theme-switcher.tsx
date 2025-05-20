@@ -13,26 +13,23 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 const ThemeSwitcher = () => {
+  const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+
   // Set default theme to dark on initial load
-const [mounted, setMounted] = useState(false);
-const { theme, setTheme } = useTheme();
-
-useEffect(() => {
-  if (!mounted) return;
-  if (!theme) setTheme("dark");
-}, [mounted, theme, setTheme]);
-
-useEffect(() => {
-  setMounted(true);
-}, []);
+  useEffect(() => {
+    if (!mounted) return;
+    if (!theme) setTheme("dark");
+  }, [mounted, theme, setTheme]);
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Don't render anything until client-side hydration is complete
   if (!mounted) {
-    return null;
+    return <Button variant="ghost" size={"sm"} />;
   }
 
   const ICON_SIZE = 16;
